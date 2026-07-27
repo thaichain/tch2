@@ -1,0 +1,40 @@
+services:
+  tch2-full-node:
+    image: ghcr.io/tempoxyz/tempo:latest
+    restart: unless-stopped
+#    network_mode: host
+    volumes:
+      - ./config:/config
+      - ./data:/data
+    command: >
+      node
+      --chain /config/genesis.json
+      --datadir /data/full-node
+      --trusted-peers enode://da1c24234178b9c49de9d28e4f881a33487b8af7f65d720822a2b7457264e58769a0d5a1a93d39dad5a75a78202dedadb9033242fe4a08b624de3e327575b558@116.202.106.98:3001,enode://02f013f01225ba1375229e4b83e95b97b7b7fc70eebf4aae09d8bb6fb84d1dc84335506cee8d6a9fae399eebf5298af816d87f24e7a16bd6f9dd1fbd83f26f22@135.181.193.101:3001
+      --follow ws://119.59.123.107:8546
+      --port 3001
+      --discovery.port 3001
+      --p2p-secret-key /config/enode.key
+      --authrpc.port 3003
+      --ws
+      --ws.port 8546
+      --ws.addr 0.0.0.0
+      --ws.api all
+      --http
+      --http.addr 0.0.0.0
+      --http.port 8545
+      --http.api all
+    ports:
+      - "3000:3000"  # Consensus P2P
+      - "3001:3001"  # Execution P2P
+      - "3002:3002"  # Metrics
+      - "3003:3003"  # AuthRPC
+      - "8545:8545"  # HTTP RPC
+      - "8546:8546"  # HTTP RPC
+      
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+

@@ -11,7 +11,7 @@ services:
       --chain /config/genesis.json
       --datadir /data/full-node
       --trusted-peers enode://7ac7a70e0633614868bbe65904b4172c7b967bc34ce6f487247d4873dec8fda35643a7ed1cdac522b9cd8f147d003968aa708dd631a41fe3562d5b9e6feb101f@135.181.193.101:3001
-      --follow ws://119.59.123.107:8546
+      --follow ws://135.181.193.101:8546
       --port 3001
       --discovery.port 3001
       --p2p-secret-key /config/enode.key

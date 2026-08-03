@@ -166,6 +166,65 @@ Connect to `ws://localhost:8546` for subscription-based interactions.
 
 Monitor the `./data` directory size. You may need to prune old data periodically.
 
+## Creating Snapshots
+
+For node operators who want to create and host snapshots for others to download:
+
+### 1. Stop the node
+
+```bash
+docker compose stop
+```
+
+### 2. Create snapshot
+
+```bash
+# Create output directory
+mkdir -p snapshot-output
+
+# Generate snapshot (takes ~10 seconds)
+docker run --rm \
+  -v $PWD/data:/data \
+  -v $PWD/config:/config \
+  -v $PWD/snapshot-output:/output \
+  ghcr.io/tempoxyz/tempo:latest \
+  snapshot-manifest \
+  --source-datadir /data/full-node \
+  --output-dir /output \
+  --skip-consensus=false \
+  --chain /config/genesis.json \
+  --chain-id 7
+```
+
+This creates:
+- `manifest.json` - Snapshot metadata and checksums
+- `state.tar.zst` - Execution layer state (~250 MB)
+- `headers-*.tar.zst` - Block headers (8 files, ~176 MB total)
+- `consensus.tar.zst` - Consensus layer data
+- Various other component archives
+
+### 3. Upload snapshot
+
+Upload all files from `snapshot-output/` to your hosting service (S3, R2, HTTP server, etc.):
+
+```bash
+# Example: Upload to Cloudflare R2 using rclone
+rclone copy snapshot-output/ r2:thaichain/snapshot/
+
+# Or upload to any HTTP server
+# scp -r snapshot-output/* user@server:/var/www/snapshot/
+```
+
+### 4. Update manifest URL
+
+Update the `--manifest-url` in the download instructions to point to your hosted `manifest.json`.
+
+### 5. Restart the node
+
+```bash
+docker compose up -d
+```
+
 ## License
 
 This project is licensed under the MIT License.

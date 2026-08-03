@@ -39,13 +39,37 @@ Before starting the node, generate a P2P secret key:
 # or let the node generate it on first run if it doesn't exist.
 ```
 
-### 3. Start the node
+### 3. Download snapshot (recommended)
+
+Instead of syncing from genesis, you can download a snapshot to get started quickly:
+
+```bash
+# Create data directory
+mkdir -p data/full-node
+
+# Download the latest snapshot (~22 seconds)
+docker run --rm \
+  -v ./data:/data \
+  -v ./config:/config \
+  ghcr.io/tempoxyz/tempo:latest \
+  download \
+  --manifest-url https://snapshot.thaichain.org/thaichain/manifest.json \
+  --datadir /data/full-node \
+  --chain /config/genesis.json \
+  --skip-consensus=false \
+  --force \
+  --non-interactive
+```
+
+This downloads the execution layer state and consensus data from the latest snapshot, significantly reducing sync time.
+
+### 4. Start the node
 
 ```bash
 docker compose up -d
 ```
 
-### 4. Verify the node is running
+### 5. Verify the node is running
 
 ```bash
 # Check logs

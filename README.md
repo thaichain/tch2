@@ -49,8 +49,8 @@ mkdir -p data/full-node
 
 # Download the latest snapshot (~22 seconds)
 docker run --rm \
-  -v ./data:/data \
-  -v ./config:/config \
+  -v $PWD/data:/data \
+  -v $PWD/config:/config \
   ghcr.io/tempoxyz/tempo:latest \
   download \
   --manifest-url https://snapshot.thaichain.org/thaichain/manifest.json \

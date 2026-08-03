@@ -209,7 +209,7 @@ Upload all files from `snapshot-output/` to your hosting service (S3, R2, HTTP s
 
 ```bash
 # Example: Upload to Cloudflare R2 using rclone
-rclone copy snapshot-output/ r2:thaichain/snapshot/
+rclone copy snapshot-output/ r2:thaichain/
 
 # Or upload to any HTTP server
 # scp -r snapshot-output/* user@server:/var/www/snapshot/

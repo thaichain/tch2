@@ -25,8 +25,8 @@ Full node configuration for **ThaiChain v2** — an EVM-compatible blockchain po
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/thaichain/node-v2.git
-cd node-v2
+git clone https://github.com/thaichain/tch2.git
+cd tch2
 ```
 
 ### 2. Generate an enode key
@@ -95,7 +95,7 @@ curl -X POST http://localhost:8545 \
 ## Directory Structure
 
 ```
-node-v2/
+tch2/
 ├── config/
 │   ├── genesis.json    # Chain genesis configuration
 │   └── enode.key       # P2P secret key (generated)
